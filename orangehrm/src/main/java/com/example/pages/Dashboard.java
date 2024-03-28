@@ -1,6 +1,6 @@
-package com.example.myproject;
+package com.example.pages;
 
-public class Main {
+public class Dashboard {
     public static void main(String[] args) {
         System.out.println("Hello world!");
     }
