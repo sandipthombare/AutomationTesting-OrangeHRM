@@ -2,7 +2,7 @@ package com.example.setup;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -15,9 +15,9 @@ public class Setup {
     @SuppressWarnings("deprecation")
     @BeforeTest
     public void setup(){
-        WebDriverManager.chromedriver().setup();
+        WebDriverManager.edgedriver().setup();
 
-        driver = new ChromeDriver();
+        driver = new EdgeDriver();
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30).toMillis(), TimeUnit.MILLISECONDS);
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
