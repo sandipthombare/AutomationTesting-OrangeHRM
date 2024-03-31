@@ -22,19 +22,15 @@ public class Utils {
 
         executor.executeScript("window.scrollBy(0,"+heightPixel+")");
     }
-    public static JSONObject loadJSONFile(String fileName)throws IOException,ParseException{
+    public static JSONObject loadJSONFile(String filePath)throws IOException,ParseException{
       
-        String filePath = Utils.class.getClassLoader().getResource(fileName).getPath();
+     JSONParser parser = new JSONParser();
+     Object obj = parser.parse(new FileReader(filePath));
 
-        try(FileReader reader = new FileReader(filePath)){
-            JSONParser parser = new JSONParser();
-
-            return (JSONObject) parser.parse(filePath);
-        }
+     return (JSONObject) obj;
     }
 
-    public static JSONObject loadJSONFileContainingArray(String fileName, int index)throws IOException,ParseException{
-        String filePath = Utils.class.getClassLoader().getResource(fileName).getPath();
+    public static JSONObject loadJSONFileContainingArray(String filePath, int index)throws IOException,ParseException{
 
         try(FileReader reader = new FileReader(filePath)){
             JSONParser parser = new JSONParser();
@@ -48,16 +44,7 @@ public class Utils {
         }
     }
 
-    public static void main(String[] args)throws IOException,ParseException{
-        JSONObject userObject = Utils.loadJSONFile("Admin.json");
-
-        String username = (String) userObject.get("username");
-        String password = (String) userObject.get("password");
-
-        System.out.println(username);
-        System.out.println(password);
-
-    }
+  
 
     public static void waitForElement(WebDriver driver,WebElement element ,int TIME_UNIT_SECONDS){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIME_UNIT_SECONDS));
@@ -71,8 +58,8 @@ public class Utils {
 
     @SuppressWarnings("unchecked")
     public static void addJsonArray(String firstName,String lastName,String employeeId,String username,String password)throws IOException,ParseException{
-        String fileName = "Employee.json";
-        String filePath = Utils.class.getClassLoader().getResource(fileName).getPath();
+        
+        String filePath = "demo\\src\\main\\java\\com\\example\\resources\\Employee.json";
 
         try(FileReader reader = new FileReader(filePath)){
         JSONParser parser = new JSONParser();
@@ -88,17 +75,18 @@ public class Utils {
         userObj.put("password", password);
         userObj.put("employeeId", employeeId);
         jsonArray.add(userObj);
-
-        FileWriter file = new FileWriter(fileName);
+            
+        FileWriter file = new FileWriter(filePath);
         file.write(jsonArray.toJSONString());
         file.flush();
         file.close();
+    
         }
     }
 
     @SuppressWarnings("unchecked")
-    public static void updateJSONObject (String fileName,String key,String value,int index)throws IOException,ParseException{
-        String filePath = Utils.class.getClassLoader().getResource(fileName).getPath();
+    public static void updateJSONObject (String filePath,String key,String value,int index)throws IOException,ParseException{
+        
         
         try(FileReader reader = new FileReader(filePath);){
             JSONParser parser = new JSONParser();
@@ -117,5 +105,5 @@ public class Utils {
         }
 
     }
-
 }
+   

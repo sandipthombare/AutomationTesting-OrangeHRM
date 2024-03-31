@@ -1,4 +1,4 @@
-package com.example.testRunner;
+package com.example;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -10,8 +10,9 @@ import org.testng.annotations.Test;
 import com.example.pages.DashboardPage;
 import com.example.pages.LoginPage;
 import com.example.pages.EmployeeInfoPage;
-import com.example.setup.Setup;
 import com.example.utils.Utils;
+
+import setup.Setup;
 
 import java.io.IOException;
 
@@ -24,7 +25,7 @@ public class EmployeeTestRunner extends Setup {
     public void doLoginWithSecondUsers() throws IOException, ParseException, InterruptedException {
         loginPage = new LoginPage(driver);
         dashboardPage = new DashboardPage(driver);
-        JSONObject userObject = Utils.loadJSONFileContainingArray("./src/test/resources/Employee.json", 1);
+        JSONObject userObject = Utils.loadJSONFileContainingArray("C:\\Users\\sndpt\\OneDrive\\Desktop\\SOFTWARE-TESTING\\Automation-Testing\\MAVEN-PROJECTS\\AutomationTesting-OrangeHRM\\orangehrm\\src\\main\\resources\\Employee.json", 1);
         String username = userObject.get("username").toString();
         String password = userObject.get("password").toString();
         loginPage.doLogin(username, password);
