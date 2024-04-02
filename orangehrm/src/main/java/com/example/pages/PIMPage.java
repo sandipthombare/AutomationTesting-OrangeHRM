@@ -25,7 +25,7 @@ public class PIMPage {
     public List<WebElement> txtPassword;
     @FindBy(tagName = "input")
     public List<WebElement> txtConfirmPassword;
-    @FindBy(css = "[type=submit]")
+    @FindBy(css = "button[type='submit']")
     public WebElement Submit;
     @FindBy(tagName = "input")
     public List<WebElement> txtSearchEmpName;
@@ -83,12 +83,13 @@ public class PIMPage {
         Submit.click();
     }
     public void updateEmployeeById(String employeeId) throws InterruptedException {
-        btnUpdateEmployee.get(6).click();
-        txtUpdateEmployeeId.get(5).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE);
+        btnUpdateEmployee.get(7).click();
+        Thread.sleep(2000);
+        txtUpdateEmployeeId.get(4).sendKeys(Keys.CONTROL + "a" + Keys.BACK_SPACE);
         Thread.sleep(1000);
-        txtUpdateEmployeeId.get(5).sendKeys(employeeId);
+        txtUpdateEmployeeId.get(4).sendKeys(employeeId);
         Thread.sleep(1500);
-        btnUpdateEmployee.get(1).click();
+        btnUpdateEmployee.get(2).click();
     }
     public void SearchEmployeeByValidId(String randomEmployeeId) throws InterruptedException {
         txtEmployeeId.get(1).sendKeys(randomEmployeeId);

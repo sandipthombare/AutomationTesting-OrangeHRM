@@ -14,6 +14,8 @@ import com.example.pages.PIMPage;
 import setup.Setup;
 import com.example.utils.Utils;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class PIMTestRunner extends Setup {
@@ -36,7 +38,7 @@ public class PIMTestRunner extends Setup {
         loginPage = new LoginPage(driver);
         dashboardPage = new DashboardPage(driver);
         String username, password;
-        JSONObject userObject = Utils.loadJSONFile("./src/test/resources/Admin.json");
+        JSONObject userObject = Utils.loadJSONFile("C:\\Users\\sndpt\\OneDrive\\Desktop\\MAVEN-PRACTICE\\demo\\src\\main\\java\\com\\example\\resources\\Admin.json");
         if (System.getProperty("username") != null && System.getProperty("password") != null) {
             username = System.getProperty("username");
             password = System.getProperty("password");
@@ -51,7 +53,7 @@ public class PIMTestRunner extends Setup {
         String header_actual = headerText.getText();
         String header_expected = "Dashboard";
         Assert.assertEquals(header_actual, header_expected);
-        Thread.sleep(1500);
+        Thread.sleep(3000);
         dashboardPage.menus.get(1).click();
         Thread.sleep(1500);
     }
@@ -59,7 +61,7 @@ public class PIMTestRunner extends Setup {
     @Test(priority = 3, description = "Doesn't create employee without Username")
     public void createEmployeeWithoutUsername() throws InterruptedException, IOException, ParseException {
         pimPage = new PIMPage(driver);
-        Thread.sleep(1500);
+        Thread.sleep(2500);
         pimPage.button.get(1).click();
         Faker faker = new Faker();
         String firstname = faker.name().firstName();
@@ -69,10 +71,12 @@ public class PIMTestRunner extends Setup {
         String password = "Siddik@234";
         Thread.sleep(1500);
         pimPage.createEmployeeWithoutUsername(firstname, lastname, employeeId, password);
-
+        Thread.sleep(3000);
         // Assertion
-        String header_actual = driver.findElements(By.className("oxd-text")).get(15).getText();
+        String header_actual = driver.findElements(By.className("oxd-text")).get(16).getText();
         String header_expected = "Required";
+
+
         Assert.assertTrue(header_actual.contains(header_expected));
         driver.navigate().refresh();
 
@@ -137,7 +141,13 @@ public class PIMTestRunner extends Setup {
         Thread.sleep(1500);
 
         //Assertion
-        String message_actual = driver.findElements(By.className("oxd-text--span")).get(11).getText();
+        List <WebElement> Elements = driver.findElements(By.className("oxd-text--span"));
+                ArrayList <String> message_actual1 = new ArrayList<String>();
+
+                for(WebElement element:Elements){
+                    message_actual1.add(element.getText());
+                }
+        String message_actual = message_actual1.get(12);
         String message_expected = "No Records Found";
         Assert.assertEquals(message_expected, message_actual);
         Thread.sleep(1000);
@@ -147,7 +157,7 @@ public class PIMTestRunner extends Setup {
     @Test(priority = 7, description = "Searching with Valid Employee's name")
     public void searchEmployeeByName() throws IOException, ParseException, InterruptedException {
         loginPage = new LoginPage(driver);
-        JSONObject userObject = Utils.loadJSONFileContainingArray("./src/test/resources/Employee.json", 0);
+        JSONObject userObject = Utils.loadJSONFileContainingArray("C:\\Users\\sndpt\\OneDrive\\Desktop\\MAVEN-PRACTICE\\demo\\src\\main\\java\\com\\example\\resources\\Employee.json", 0);
         String employeeFirstName = userObject.get("firstname").toString();
         String employeeLastName=userObject.get("lastname").toString();
         String employeeName=employeeFirstName + " " + employeeLastName;
@@ -158,18 +168,22 @@ public class PIMTestRunner extends Setup {
 
         //Assertion
 
-        String message_actual = driver.findElements(By.className("oxd-text--span")).get(11).getText();
+        String message_actual = driver.findElements(By.className("oxd-text--span")).get(12).getText();
         String message_expected = "Record Found";
         Assert.assertTrue(message_actual.contains(message_expected));
         Thread.sleep(1000);
     }
+
     @Test(priority = 8, description = "Update user Id by Random Id")
     public void updateEmployeeById() throws InterruptedException, IOException, ParseException {
         pimPage = new PIMPage(driver);
         int empId = Utils.generateRandomNumber(10000, 99999);
         String randomEmployeeId = String.valueOf(empId);
-        Utils.updateJSONObject("./src/test/resources/Employee.json", "employeeId", randomEmployeeId,0 );
+        Utils.updateJSONObject("C:\\Users\\sndpt\\OneDrive\\Desktop\\MAVEN-PRACTICE\\demo\\src\\main\\java\\com\\example\\resources\\Employee.json", "employeeId", randomEmployeeId,0 );
         Utils.doScroll(driver,300);
+
+        Thread.sleep(3000);
+        
         pimPage.updateEmployeeById(randomEmployeeId);
         Thread.sleep(1500);
 
@@ -178,20 +192,25 @@ public class PIMTestRunner extends Setup {
         String header_expected = "Personal Details";
         Assert.assertTrue(header_actual.contains(header_expected));
     }
+
     @Test(priority = 9, description = "Search by updated Employee Id")
     public void searchEmployeeById() throws IOException, ParseException, InterruptedException {
         loginPage = new LoginPage(driver);
         dashboardPage = new DashboardPage(driver);
+        pimPage = new PIMPage(driver);
+
         dashboardPage.menus.get(1).click();
-        JSONObject userObject = Utils.loadJSONFileContainingArray("./src/test/resources/Employee.json", 0);
+
+        Thread.sleep(1500);
+        JSONObject userObject = Utils.loadJSONFileContainingArray("C:\\Users\\sndpt\\OneDrive\\Desktop\\MAVEN-PRACTICE\\demo\\src\\main\\java\\com\\example\\resources\\Employee.json", 0);
         String employeeId = userObject.get("employeeId").toString();
         pimPage.SearchEmployeeByValidId(employeeId);
-        Thread.sleep(1500);
+        Thread.sleep(3000);
         Utils.doScroll(driver,500);
 
         //Assertion
-        String message_actual = driver.findElements(By.className("oxd-text--span")).get(11).getText();
-        String message_expected = "Record Found";
+        String message_actual = driver.findElements(By.className("oxd-text--span")).get(12).getText();
+        String message_expected = "(1) Record Found";
         Assert.assertTrue(message_actual.contains(message_expected));
         Thread.sleep(1000);
 
