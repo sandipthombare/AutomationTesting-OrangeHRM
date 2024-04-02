@@ -12,7 +12,7 @@ public class DashboardPage {
     public WebElement btnProfileTab;
     @FindBy(partialLinkText =  "Logout")
     public WebElement logOutLink;
-    @FindBy(className = "oxd-main-menu-item-name")
+    @FindBy(className = "oxd-main-menu-item--name")
     public List<WebElement> menus;
 
     public  DashboardPage(WebDriver driver) {
